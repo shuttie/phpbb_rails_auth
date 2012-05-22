@@ -31,9 +31,9 @@
   function login_rails($username, $password) {
     $config = parse_ini_file('auth_rails.ini.php');
     print_r($config);
-    $db_connection = mysql_pconnect($config['db']['host'], $config['db']['user'], $config['db']['password']);
+    $db_connection = mysql_pconnect($config['db_host'], $config['db_user'], $config['db_password']);
     if ($db_connection) {
-      if (mysql_select_db($config['db']['name'], $db_connection)) {
+      if (mysql_select_db($config['db_name'], $db_connection)) {
         $username_safe = mysql_real_escape_string($username, $db_connection);
         $query_str = sprintf("select id,crypted_password,password_salt,email from users where username='%s'", 
                               $username_safe);
@@ -77,7 +77,7 @@
           }
         }
       } else {
-	$rails_db_name = $config['db']['name'];
+	$rails_db_name = $config['db_name'];
         echo "cannot select db: $rails_db_name\n";
         return array(
           'status' => LOGIN_ERROR_EXTERNAL_AUTH,
