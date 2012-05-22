@@ -38,7 +38,7 @@
                               $username_safe);
         $query_result = mysql_query($query_str, $db_connection);
         if (!$query_result) {
-          echo "cannot execute query\n";
+          echo "cannot execute query $query_str\n";
           return array(
             'status' => LOGIN_ERROR_EXTERNAL_AUTH,
             'error_msg' => 'Cannot execute query',
@@ -78,7 +78,7 @@
         echo "cannot select db\n";
         return array(
           'status' => LOGIN_ERROR_EXTERNAL_AUTH,
-          'error_msg' => 'Cannot select db',
+          'error_msg' => 'Cannot select db $rails_db_name',
           'user_row' => array('user_id' => ANONYMOUS),
           );
       }
