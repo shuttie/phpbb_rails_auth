@@ -1,7 +1,5 @@
 <?php
 
-  include 'auth_rails.conf.php';
-  
   // an authlogic default sha512 hashing function
   function authlogic_hash($password, $salt) {
     $data = "$password$salt";
@@ -71,11 +69,70 @@
 	    echo 'auth failure';
 	    return array(
 	      'status' => LOGIN_ERROR_PASSWORD,
-	      'error_msg' => 'Authentication failure',
+	      'error_msg' => 'LOGIN_ERROR_PASSWORD',
 	      'user_row' => array('user_id' => ANONYMOUS),
 	      );	    
           }
         }
+      } else {
+	$rails_db_name = $config['db_name'];
+        echo "cannot select db: $rails_db_name\n";
+        return array(
+          'status' => LOGIN_ERROR_EXTERNAL_AUTH,
+          'error_msg' => 'LOGIN_ERROR_PASSWORD',
+          'user_row' => array('user_id' => ANONYMOUS),
+          );
+      }
+    } else {
+      echo "cannot connect to database\n";
+      return array(
+        'status' => LOGIN_ERROR_EXTERNAL_AUTH,
+        'error_msg' => 'LOGIN_ERROR_PASSWORD',
+        'user_row' => array('user_id' => ANONYMOUS),
+        );
+    }  
+  }
+  
+/*  function autologin_rails() {
+    $config = parse_ini_file('auth_rails.ini.php');
+    print_r($config);
+    $db_connection = mysql_pconnect($config['db_host'], $config['db_user'], $config['db_password']);
+    if ($db_connection) {
+      if (mysql_select_db($config['db_name'], $db_connection)) {
+	$cookie = split("%3A%3A",$_COOKIE['user_credentials']);
+	$persistence_token = $cookie[0];
+	
+        $query_str = sprintf("select id,email,username from users where persistence_token='%s'", 
+                              $persistence_token);
+        $query_result = mysql_query($query_str, $db_connection);
+        if (!$query_result) {
+          echo "cannot execute query $query_str\n";
+          return array(
+            'status' => LOGIN_ERROR_EXTERNAL_AUTH,
+            'error_msg' => 'Cannot execute query',
+            'user_row' => array('user_id' => ANONYMOUS),
+            );
+        } else {
+          $row = mysql_fetch_row($query_result);
+          $user_id = 1000 + $row[0];
+          $email = $row[1];
+	  $username = $row[2];
+	  if (profile_exists($username, $db_connection)) {
+	    echo "login ok\n";
+	    return array(
+	      'status' => LOGIN_SUCCESS,
+	      'error_msg' => false,
+	      'user_row' => array('user_id' => $user_id, 'username' => $username, 'user_email' => $email,),
+	      );                    
+	  } else {
+	    echo "login ok, creating profile\n";
+	    return array(
+	      'status' => LOGIN_SUCCESS_CREATE_PROFILE,
+	      'error_msg' => false,
+	      'user_row' => array('user_id' => $user_id, 'username' => $username, 'user_email' => $email, 'user_type' => USER_NORMAL, 'group_id' => 2,),
+	      );                            
+	  }
+	}
       } else {
 	$rails_db_name = $config['db_name'];
         echo "cannot select db: $rails_db_name\n";
@@ -93,6 +150,8 @@
         'user_row' => array('user_id' => ANONYMOUS),
         );
     }  
+*/
+    
   }
     
 ?>
