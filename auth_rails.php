@@ -28,7 +28,7 @@
   // refer to phpbb3 docs to learn how it works
   function login_rails($username, $password) {
     $config = parse_ini_file('auth_rails.ini.php');
-    print_r($config);
+    //print_r($config);
     $db_connection = mysql_pconnect($config['db_host'], $config['db_user'], $config['db_password']);
     if ($db_connection) {
       if (mysql_select_db($config['db_name'], $db_connection)) {
@@ -37,7 +37,7 @@
                               $username_safe);
         $query_result = mysql_query($query_str, $db_connection);
         if (!$query_result) {
-          echo "cannot execute query $query_str\n";
+          //echo "cannot execute query $query_str\n";
           return array(
             'status' => LOGIN_ERROR_EXTERNAL_AUTH,
             'error_msg' => 'Cannot execute query',
@@ -51,14 +51,14 @@
           $email = $row[3];
           if ($crypted_password == authlogic_hash($password,$password_salt)) {
             if (profile_exists($username_safe, $db_connection)) {
-              echo "login ok\n";
+              //echo "login ok\n";
               return array(
                 'status' => LOGIN_SUCCESS,
                 'error_msg' => false,
                 'user_row' => array('user_id' => $user_id, 'username' => $username, 'user_email' => $email,),
                 );                    
             } else {
-              echo "login ok, creating profile\n";
+              //echo "login ok, creating profile\n";
               return array(
                 'status' => LOGIN_SUCCESS_CREATE_PROFILE,
                 'error_msg' => false,
@@ -66,7 +66,7 @@
                 );                            
             }
           } else {
-	    echo 'auth failure';
+	    //echo 'auth failure';
 	    return array(
 	      'status' => LOGIN_ERROR_PASSWORD,
 	      'error_msg' => 'LOGIN_ERROR_PASSWORD',
@@ -76,7 +76,7 @@
         }
       } else {
 	$rails_db_name = $config['db_name'];
-        echo "cannot select db: $rails_db_name\n";
+        //echo "cannot select db: $rails_db_name\n";
         return array(
           'status' => LOGIN_ERROR_EXTERNAL_AUTH,
           'error_msg' => 'LOGIN_ERROR_PASSWORD',
@@ -84,7 +84,7 @@
           );
       }
     } else {
-      echo "cannot connect to database\n";
+      //echo "cannot connect to database\n";
       return array(
         'status' => LOGIN_ERROR_EXTERNAL_AUTH,
         'error_msg' => 'LOGIN_ERROR_PASSWORD',
