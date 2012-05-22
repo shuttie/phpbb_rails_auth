@@ -30,6 +30,7 @@
   // refer to phpbb3 docs to learn how it works
   function login_rails($username, $password) {
     $config = parse_ini_file('auth_rails.ini.php');
+    print_r($config);
     $db_connection = mysql_pconnect($config['db']['host'], $config['db']['user'], $config['db']['password']);
     if ($db_connection) {
       if (mysql_select_db($config['db']['name'], $db_connection)) {
