@@ -52,14 +52,14 @@
           $email = $row[3];
           if ($crypted_password == authlogic_hash($password,$password_salt)) {
             if (profile_exists($username_safe, $db_connection)) {
-              //echo "login ok\n";
+              echo "login ok\n";
               return array(
                 'status' => LOGIN_SUCCESS,
                 'error_msg' => false,
                 'user_row' => array('user_id' => $user_id, 'username' => $username, 'user_email' => $email,),
                 );                    
             } else {
-              //echo "login ok, create profile\n";
+              echo "login ok, create profile\n";
               return array(
                 'status' => LOGIN_SUCCESS_CREATE_PROFILE,
                 'error_msg' => false,
@@ -75,7 +75,7 @@
           }
         }
       } else {
-        //echo "cannot select db\n";
+        echo "cannot select db\n";
         return array(
           'status' => LOGIN_ERROR_EXTERNAL_AUTH,
           'error_msg' => 'Cannot select db',
@@ -83,7 +83,7 @@
           );
       }
     } else {
-      //echo "cannot connect to database\n";
+      echo "cannot connect to database\n";
       return array(
         'status' => LOGIN_ERROR_EXTERNAL_AUTH,
         'error_msg' => 'Cannot connect to database',
