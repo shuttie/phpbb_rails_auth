@@ -29,6 +29,7 @@
   // main login function phpbb hooks to
   // refer to phpbb3 docs to learn how it works
   function login_rails($username, $password) {
+    echo "rails auth in progress";
     global $rails_db_user, $rails_db_password, $rails_db_host, $rails_db_name;
     $db_connection = mysql_pconnect($rails_db_host, $rails_db_user, $rails_db_password);
     if ($db_connection) {
