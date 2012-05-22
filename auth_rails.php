@@ -29,7 +29,7 @@
   // main login function phpbb hooks to
   // refer to phpbb3 docs to learn how it works
   function login_rails($username, $password) {
-    global $rails_db_user, $rails_db_password, $rails_db_host, $rails_db_name;
+    //global $rails_db_user, $rails_db_password, $rails_db_host, $rails_db_name;
     $db_connection = mysql_pconnect($rails_db_host, $rails_db_user, $rails_db_password);
     if ($db_connection) {
       if (mysql_select_db($rails_db_name, $db_connection)) {
