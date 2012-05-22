@@ -29,10 +29,10 @@
   // main login function phpbb hooks to
   // refer to phpbb3 docs to learn how it works
   function login_rails($username, $password) {
-    //global $rails_db_user, $rails_db_password, $rails_db_host, $rails_db_name;
-    $db_connection = mysql_pconnect($rails_db_host, $rails_db_user, $rails_db_password);
+    $config = parse_ini_file('auth_rails.ini.php');
+    $db_connection = mysql_pconnect($config['db']['host'], $config['db']['user'], $config['db']['password']);
     if ($db_connection) {
-      if (mysql_select_db($rails_db_name, $db_connection)) {
+      if (mysql_select_db($config['db']['name'], $db_connection)) {
         $username_safe = mysql_real_escape_string($username, $db_connection);
         $query_str = sprintf("select id,crypted_password,password_salt,email from users where username='%s'", 
                               $username_safe);
@@ -59,23 +59,24 @@
                 'user_row' => array('user_id' => $user_id, 'username' => $username, 'user_email' => $email,),
                 );                    
             } else {
-              echo "login ok, create profile\n";
+              echo "login ok, creating profile\n";
               return array(
                 'status' => LOGIN_SUCCESS_CREATE_PROFILE,
                 'error_msg' => false,
-                'user_row' => array('user_id' => $user_id, 'username' => $username, 'user_email' => $email, 'user_type' => USER_NORMAL, 'group_id' => 1,),
+                'user_row' => array('user_id' => $user_id, 'username' => $username, 'user_email' => $email, 'user_type' => USER_NORMAL, 'group_id' => 7,),
                 );                            
             }
           } else {
+	    echo 'auth failure';
 	    return array(
-	      'status' => LOGIN_ERROR_EXTERNAL_AUTH,
+	      'status' => LOGIN_ERROR_PASSWORD,
 	      'error_msg' => 'Authentication failure',
 	      'user_row' => array('user_id' => ANONYMOUS),
 	      );	    
           }
         }
       } else {
-        echo "cannot select db: $rails_db_name\n";
+        echo "cannot select db: $config['db']['name']\n";
         return array(
           'status' => LOGIN_ERROR_EXTERNAL_AUTH,
           'error_msg' => 'Cannot select db: $rails_db_name',
