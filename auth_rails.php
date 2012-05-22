@@ -64,7 +64,7 @@
               return array(
                 'status' => LOGIN_SUCCESS_CREATE_PROFILE,
                 'error_msg' => false,
-                'user_row' => array('user_id' => $user_id, 'username' => $username, 'user_email' => $email, 'user_type' => USER_NORMAL, 'group_id' => 7,),
+                'user_row' => array('user_id' => $user_id, 'username' => $username, 'user_email' => $email, 'user_type' => USER_NORMAL, 'group_id' => 2,),
                 );                            
             }
           } else {
