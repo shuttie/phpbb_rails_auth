@@ -150,8 +150,8 @@
         'user_row' => array('user_id' => ANONYMOUS),
         );
     }  
-*/
     
   }
+*/
     
 ?>
