@@ -76,7 +76,8 @@
           }
         }
       } else {
-        echo "cannot select db: $config['db']['name']\n";
+	$rails_db_name = $config['db']['name'];
+        echo "cannot select db: $rails_db_name\n";
         return array(
           'status' => LOGIN_ERROR_EXTERNAL_AUTH,
           'error_msg' => 'Cannot select db: $rails_db_name',
