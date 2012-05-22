@@ -78,7 +78,7 @@
         echo "cannot select db\n";
         return array(
           'status' => LOGIN_ERROR_EXTERNAL_AUTH,
-          'error_msg' => 'Cannot select db $rails_db_name',
+          'error_msg' => 'Cannot select db: $rails_db_name',
           'user_row' => array('user_id' => ANONYMOUS),
           );
       }
